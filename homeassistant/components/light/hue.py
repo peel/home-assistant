@@ -124,7 +124,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
         if progress is not None:
             return await progress
 
-        progress = asyncio.ensure_future(update_bridge())
+        progress = asyncio.async(update_bridge())
         result = await progress
         progress = None
         light_progress.clear()

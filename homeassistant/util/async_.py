@@ -7,7 +7,7 @@ from asyncio.events import AbstractEventLoop
 from asyncio.futures import Future
 
 import asyncio
-from asyncio import ensure_future
+from asyncio import async
 from typing import Any, Union, Coroutine, Callable, Generator, TypeVar, \
                    Awaitable
 
@@ -144,7 +144,7 @@ def run_coroutine_threadsafe(
     def callback() -> None:
         """Handle the call to the coroutine."""
         try:
-            _chain_future(ensure_future(coro, loop=loop), future)
+            _chain_future(async(coro, loop=loop), future)
         except Exception as exc:  # pylint: disable=broad-except
             if future.set_running_or_notify_cancel():
                 future.set_exception(exc)
@@ -172,7 +172,7 @@ def fire_coroutine_threadsafe(coro: Coroutine,
 
     def callback() -> None:
         """Handle the firing of a coroutine."""
-        ensure_future(coro, loop=loop)
+        async(coro, loop=loop)
 
     loop.call_soon_threadsafe(callback)
 
